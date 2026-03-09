@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-digital: "VT323", monospace;
+}
+
+body {
+  font-family: "VT323", monospace;
+  background-color: #050505;
+  color: #00FFFF;
+  overflow-x: hidden;
+}
+
+/* Static Noise Overlay */
+.bg-static {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* CRT Scanlines */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  z-index: 40;
+  pointer-events: none;
+}
+
+/* Screen Tear */
+.screen-tear {
+  animation: tear 4s infinite;
+}
+
+@keyframes tear {
+  0%, 100% { transform: translateX(0); }
+  95% { transform: translateX(0); }
+  96% { transform: translateX(10px); }
+  97% { transform: translateX(-10px); }
+  98% { transform: translateX(5px); }
+  99% { transform: translateX(-5px); }
+}
+
+@layer utilities {
+  .glitch-effect {
+    position: relative;
+    display: inline-block;
+  }
+  .glitch-effect::before,
+  .glitch-effect::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+  }
+  .glitch-effect::before {
+    left: 2px;
+    text-shadow: -2px 0 #FF00FF;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+  }
+  .glitch-effect::after {
+    left: -2px;
+    text-shadow: -2px 0 #00FFFF;
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+  }
+}
+
+@keyframes glitch-anim {
+  0% { clip-path: inset(14% 0 32% 0); }
+  20% { clip-path: inset(85% 0 2% 0); }
+  40% { clip-path: inset(43% 0 46% 0); }
+  60% { clip-path: inset(12% 0 28% 0); }
+  80% { clip-path: inset(65% 0 16% 0); }
+  100% { clip-path: inset(34% 0 45% 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(65% 0 10% 0); }
+  20% { clip-path: inset(12% 0 24% 0); }
+  40% { clip-path: inset(85% 0 6% 0); }
+  60% { clip-path: inset(43% 0 44% 0); }
+  80% { clip-path: inset(23% 0 38% 0); }
+  100% { clip-path: inset(76% 0 9% 0); }
+}
